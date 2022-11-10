@@ -1,0 +1,9 @@
+.getImgBtn {
+    margin: 50px;
+}
+.userProfile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
