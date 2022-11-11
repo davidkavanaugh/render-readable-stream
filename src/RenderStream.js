@@ -68,7 +68,7 @@ const RenderStream = () => {
 
   return (
     <div className={css.userProfile}>
-      <h1>Get One Image</h1>
+      <h1>Render Stream with node Fetch</h1>
       <Button className={css.getImgBtn} onClick={(event) => renderImage(event)}>
         Get Image
       </Button>

@@ -41,7 +41,7 @@ const RenderBinary = () => {
 
   return (
     <div className={css.userProfile}>
-      <h1>Render As Binary</h1>
+      <h1>Render Binary with XMLHttpRequest</h1>
       <Button className={css.getImgBtn} onClick={(event) => renderImage(event)}>
         Get Image
       </Button>
