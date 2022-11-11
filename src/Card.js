@@ -1,20 +1,25 @@
 import Button from "./Button";
 import Image from "./Image";
 import { useState } from "react";
-import css from "./UserProfile.module.css";
+import fetch from "node-fetch";
+import css from "./Card.module.css";
+import Spinner from "./Spinner";
 
-const UserProfile = () => {
-  const [imgSrc, setImgSrc] = useState(null);
-  const [isImgVisible, setIsImgVisible] = useState(false);
+const Card = () => {
+  const [imgSrcUrls, setImgSrcUrls] = useState([]);
+  const [areImagesVisible, setAreImagesVisible] = useState(false);
 
   const getImageStream = async () => {
     try {
-      const response = await fetch(process.env.REACT_APP_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_GET_USER_PIC_ENDPOINT,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+          },
+        }
+      );
       return response.body;
     } catch (err) {
       console.error("error fetching user avatar from api");
@@ -22,10 +27,10 @@ const UserProfile = () => {
     }
   };
 
-  const renderImage = async (event) => {
+  const renderImages = async (event) => {
     try {
-      setImgSrc(null);
-      setIsImgVisible(true);
+      setImgSrcUrls([]);
+      setAreImagesVisible(true);
 
       // fetch from api
       const response = await getImageStream();
@@ -56,20 +61,30 @@ const UserProfile = () => {
       const imgUrl = URL.createObjectURL(blob);
 
       // set image url src
-      setImgSrc(imgUrl);
+      setImgSrcUrls([imgUrl]);
     } catch (err) {
       console.error("error rendering image", err);
     }
   };
 
   return (
-    <div className={css.userProfile}>
-      <Button className={css.getImgBtn} onClick={(event) => renderImage(event)}>
-        Get Image
+    <div className={css.card}>
+      <h1>Get Many Images</h1>
+      <Button
+        className={css.getImagesBtn}
+        onClick={(event) => renderImages(event)}
+      >
+        Get Images
       </Button>
-      {isImgVisible ? <Image src={imgSrc} /> : null}
+      {areImagesVisible && imgSrcUrls.length === 0 ? (
+        <Spinner />
+      ) : (
+        imgSrcUrls.map((url, idx) => {
+          return <Image src={url} key={idx} />;
+        })
+      )}
     </div>
   );
 };
 
-export default UserProfile;
+export default Card;

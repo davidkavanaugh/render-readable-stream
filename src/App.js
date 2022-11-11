@@ -1,11 +1,12 @@
-import logo from "./logo.svg";
-import UserProfile from "./UserProfile";
+import RenderStream from "./RenderStream";
 import "./App.css";
+import RenderBinary from "./RenderBinary";
 
 function App() {
   return (
     <div className="App">
-      <UserProfile />
+      <RenderStream />
+      <RenderBinary />
     </div>
   );
 }
